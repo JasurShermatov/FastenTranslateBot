@@ -26,13 +26,15 @@ async def init_db():
         cur = conn.cursor()
 
         logger.info("Checking if 'users' table exists...")
-        cur.execute("""
+        cur.execute(
+            """
             SELECT EXISTS (
                 SELECT 1 
                 FROM information_schema.tables 
                 WHERE table_name = 'users'
             );
-        """)
+        """
+        )
         users_table_exists = cur.fetchone()[0]
 
         if not users_table_exists:
@@ -57,15 +59,16 @@ async def init_db():
         else:
             logger.info("'users' table already exists. Skipping creation.")
 
-
         logger.info("Checking if 'subscription' table exists...")
-        cur.execute("""
+        cur.execute(
+            """
             SELECT EXISTS (
                 SELECT 1 
                 FROM information_schema.tables 
                 WHERE table_name = 'subscription'
             );
-        """)
+        """
+        )
         subscription_table_exists = cur.fetchone()[0]
 
         if not subscription_table_exists:

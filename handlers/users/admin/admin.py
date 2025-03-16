@@ -122,8 +122,6 @@ async def process_delete_channel(callback: CallbackQuery):
         await callback.message.edit_text("✅ Barcha kanallar o‘chirildi!")
 
 
-
-
 @router.message(AdminFilter(), F.text == "📊 Statistika")
 async def show_statistics(message: Message):
     try:
@@ -152,9 +150,6 @@ async def show_statistics(message: Message):
     except Exception as e:
         print(f"Error showing statistics: {e}")
         await message.answer("❌ Statistikani olishda xatolik yuz berdi")
-
-
-
 
 
 @router.message(F.text == "📥 Users Excel", AdminFilter())
@@ -222,7 +217,6 @@ async def get_users_excel(message: Message):
     except Exception as e:
         print(f"Error creating Excel file: {e}")
         await message.answer("❌ Excel fayl yaratishda xatolik yuz berdi")
-
 
 
 # 📌 📋 Kanallar ro‘yxati

@@ -53,7 +53,6 @@ async def get_channel_keyboard(missing_channels: list = None) -> InlineKeyboardM
     return InlineKeyboardMarkup(inline_keyboard=inline_buttons)
 
 
-
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -63,8 +62,17 @@ class get_user_kb:
         """Asosiy menyu uchun inline keyboard"""
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="📚 Cambridge Translate", callback_data="translate")],
-                [InlineKeyboardButton(text="🌐 Google Translate", web_app=WebAppInfo(url="https://translate.google.com"))]
+                [
+                    InlineKeyboardButton(
+                        text="📚 Cambridge Translate", callback_data="translate"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="🌐 Google Translate",
+                        web_app=WebAppInfo(url="https://translate.google.com"),
+                    )
+                ],
                 # Boshqa tugmalarni shu yerga qo'shishingiz mumkin
             ]
         )
@@ -75,8 +83,11 @@ class get_user_kb:
         """Orqaga qaytish uchun keyboard"""
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="🔙 Asosiy menyuga qaytish", callback_data="back_to_main")],
+                [
+                    InlineKeyboardButton(
+                        text="🔙 Asosiy menyuga qaytish", callback_data="back_to_main"
+                    )
+                ],
             ]
         )
         return keyboard
-

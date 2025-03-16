@@ -20,7 +20,6 @@ from data.config import load_config
 from utils.database.db_init import init_db
 
 
-
 # Logger sozlamalari
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -31,10 +30,6 @@ logging.basicConfig(
         logging.StreamHandler(sys.stdout),
     ],
 )
-
-
-
-
 
 
 def setup_handlers(dp: Dispatcher):
@@ -54,13 +49,10 @@ def setup_handlers(dp: Dispatcher):
     admin_spams_router.message.middleware(middleware)
     admin_spams_router.callback_query.middleware(middleware)
 
-
-
     # Translate router uchun middleware
     translate_router.message.middleware(middleware)
     translate_router.callback_query.middleware(middleware)
     dp.include_router(translate.router)
-
 
     # Routerlarni Dispatcher'ga ulash
     dp.include_router(admin_router)
@@ -77,15 +69,12 @@ async def main():
 
     # Bot va Dispatcher yaratish
     bot = Bot(
-        token=config.bot.token,
-        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+        token=config.bot.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     dp = Dispatcher()
 
     # Handlerlar va middleware'larni ulash
     setup_handlers(dp)
-
-
 
     # Botni ishga tushirish
     try:
@@ -107,4 +96,3 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Kutilmagan xatolik: {e}")
         sys.exit(1)
-

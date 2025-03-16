@@ -1,4 +1,3 @@
-
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, StateFilter
@@ -37,7 +36,7 @@ async def translate_command(message: Message, state: FSMContext):
         "📌 <b>Misol:</b> <i>“run”</i> → <b>yugurmoq</b> 🔊 (Talaffuzni tinglash)\n\n"
         "👉 <b>So'zni yozing va Cambridge Dictionary orqali ma'lumot oling!</b> 🚀",
         parse_mode="HTML",
-        reply_markup=await get_user_kb.get_back_keyboard()
+        reply_markup=await get_user_kb.get_back_keyboard(),
     )
 
 
@@ -50,8 +49,8 @@ async def start_translation(callback: CallbackQuery, state: FSMContext):
         "🌟 <b>Ma'no:</b> So'zni yuboring va aniq ma'nosini oling.\n"
         "🔊 <b>Talaffuz:</b> Britancha va amerikalikcha tinglang.\n"
         "👉 So'zni yozing va ma'lumot oling! 🚀",
-           parse_mode="HTML",
-        reply_markup=await get_user_kb.get_back_keyboard()
+        parse_mode="HTML",
+        reply_markup=await get_user_kb.get_back_keyboard(),
     )
     await callback.answer()
 
@@ -60,6 +59,7 @@ async def start_translation(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(F.data == "back_to_main")
 async def back_to_main(callback: CallbackQuery, state: FSMContext):
     from handlers.users.main.start import show_main_menu
+
     await state.clear()
     await callback.message.delete()
     await show_main_menu(callback.message)
@@ -81,10 +81,10 @@ async def process_word(message: Message, state: FSMContext):
     # Cambridge Dictionary dan ma'lumot olish
     result = await cambridge_api.get_word_info(word)
 
-    if not result['success']:
+    if not result["success"]:
         await progress_msg.edit_text(
             f"❌ {result.get('error', 'Xatolik yuz berdi')}",
-            reply_markup=await get_user_kb.get_back_keyboard()
+            reply_markup=await get_user_kb.get_back_keyboard(),
         )
         return
 
@@ -92,16 +92,16 @@ async def process_word(message: Message, state: FSMContext):
     text = f"📕 <b>{word.upper()}</b>\n\n"
 
     # Ma'nolarini qo'shish
-    if result['definitions']:
+    if result["definitions"]:
         text += "<b>Ma'nosi:</b>\n"
-        for i, definition in enumerate(result['definitions'], 1):
+        for i, definition in enumerate(result["definitions"], 1):
             text += f"{i}. {definition}\n"
     else:
         text += "⚠️ Bu so'z uchun ma'no topilmadi.\n"
 
     # Audio havolalarini qo'shish
     text += "\n<b>🔊 Talaffuz:</b>\n"
-    if result['pronunciations']['uk'] or result['pronunciations']['us']:
+    if result["pronunciations"]["uk"] or result["pronunciations"]["us"]:
         text += "Audio fayllar yuborilmoqda..."
     else:
         text += "⚠️ Bu so'z uchun audio talaffuz topilmadi."
@@ -110,25 +110,23 @@ async def process_word(message: Message, state: FSMContext):
     await progress_msg.edit_text(
         text,
         reply_markup=await get_user_kb.get_back_keyboard(),
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )
 
     # Agar audio mavjud bo'lsa, ularni yuborish
     try:
-        if result['pronunciations']['uk']:
+        if result["pronunciations"]["uk"]:
             await message.answer_audio(
-                result['pronunciations']['uk'],
-                caption="🇬🇧 Britaniya talaffuzi"
+                result["pronunciations"]["uk"], caption="🇬🇧 Britaniya talaffuzi"
             )
 
-        if result['pronunciations']['us']:
+        if result["pronunciations"]["us"]:
             await message.answer_audio(
-                result['pronunciations']['us'],
-                caption="🇺🇸 Amerika talaffuzi"
+                result["pronunciations"]["us"], caption="🇺🇸 Amerika talaffuzi"
             )
     except Exception as e:
         logger.error(f"Audio yuborishda xatolik: {str(e)}")
         await message.answer(
             "⚠️ Audio fayllarni yuborishda xatolik yuz berdi.",
-            reply_markup=await get_user_kb.get_back_keyboard()
+            reply_markup=await get_user_kb.get_back_keyboard(),
         )

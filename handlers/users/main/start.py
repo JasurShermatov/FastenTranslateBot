@@ -70,21 +70,16 @@ async def check_subscription_handler(callback: CallbackQuery):
         await show_main_menu(callback.message)
 
 
-
-
-
 async def show_main_menu(message: Message):
     from keyboards.inline.user import get_user_kb
+
     keyboard = await get_user_kb.get_main_keyboard()
     await message.answer(
         "🤖 Cambridge Dictionary botiga xush kelibsiz!\n\n"
         "📚 Bot yordamida siz Cambridge lug'atidan so'zlarni qidirishingiz, "
         "ularning ma'nolarini o'rganishingiz va to'g'ri talaffuzini eshitishingiz mumkin.",
-        reply_markup=keyboard
+        reply_markup=keyboard,
     )
-
-
-
 
 
 @router.message(Command("help"))
@@ -101,5 +96,5 @@ async def show_help(message: Message):
         "✅ /start — Botni ishga tushirish\n"
         "✅ /help — Yordam oynasini ko'rsatish\n"
         "🚀 <b>Botdan samarali foydalaning!</b> 🔥",
-        parse_mode="HTML"
+        parse_mode="HTML",
     )
